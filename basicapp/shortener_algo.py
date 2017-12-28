@@ -5,7 +5,7 @@ import string
 class algo():
     """the algo converts decimal to other base and vice versa"""
 
-    CHAR_LIST = string.digits+string.ascii_lowercase+string.ascii_uppercase+'_' #base 63
+    CHAR_LIST = string.ascii_lowercase+string.ascii_uppercase+string.digits+'_' #base 63
     CHAR_DICT = dict((c, i) for i, c in enumerate(CHAR_LIST))# a character to index dictionary
 
     def __init__(self):
@@ -26,5 +26,5 @@ class algo():
         ret = ''
         while num != 0:
             ret = char_list[num % length] + ret
-            num = floor(num/length)
+            num = int(num/length)
         return ret
