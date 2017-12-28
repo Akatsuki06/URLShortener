@@ -5,29 +5,22 @@ import hashlib
 import urllib
 from basicapp import models,forms
 
-# class index(TemplateView):
-#     template_name='index.html'
+from basicapp.shortener_algo import algo
 
-
-from django.contrib.auth.hashers import make_password
+# from django.contrib.auth.hashers import make_password
 def shorten(request):
     form=forms.LinkForm()
-    shortenURL=''
+    al=algo()
     if request.method=='POST':
         form=forms.LinkForm(request.POST)
         if form.is_valid():
             link=form.save(commit=False)
             targetURL=link.targetURL
-            # shortenURL=hashlib.md5(targetURL)
-            shortenURL=len(targetURL)
+            linkid=link.linkid
+            shortenURL=al.encode(linkid)
             link.shortenURL=shortenURL
-            # print(user.password,clearpwd,hashpwd)
             print(targetURL,shortenURL)
-            # form.shortenURL = hashlib.md5(form.targetURL).hexdigest()[:8]
-            # print('targeturl',form.targetURL)
-            # print('short url',form.shortenURL)
             link.save()
-
     return render(request,'index.html',{'form':form,'shorturl':shortenURL})
 
 def target(request,URLid):
