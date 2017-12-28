@@ -1,7 +1,15 @@
 from django import forms
 from basicapp import models
-class LinkForm(forms.ModelForm):
 
+from urllib.parse import urlparse
+
+class LinkForm(forms.ModelForm):
     class Meta():
         model=models.Link
-        fields=('targetURL','label')
+        exclude=('shortenURL',)
+
+    def clean_targetURL(self):
+        targetURL=self.cleaned_data['targetURL'].lower()
+        if urlparse(targetURL).scheme=='':
+            targetURL='http://'+targetURL
+        return targetURL

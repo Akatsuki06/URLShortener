@@ -16,24 +16,32 @@ def shorten(request):
         form=forms.LinkForm(request.POST)
         if form.is_valid():
             link=form.save(commit=False)
-            link.save()
-            targetURL=link.targetURL
-            linkid=link.pk
-            print(link.pk)
-            print('linkid--',linkid)
-            shortenURL=al.encode(linkid)
-            link.shortenURL=shortenURL
-            print(targetURL,shortenURL)
-            link.save()
+            targetURL=form.cleaned_data['targetURL']
+            #check if this url is already exists
+            try:
+                check=models.Link.objects.get(targetURL=targetURL)# retrieve the object
+            except:
+                check = None
+            # check=get_object_or_404(models.Link,targetURL=targetURL)
+            print('check',check)
+            if check is not None:
+                shortenURL=check.shortenURL
+                print('check not none shortenURL',shortenURL)
+            else:
+                linkid=models.Link.objects.count()
+                shortenURL=al.encode(linkid)
+                link.targetURL=targetURL
+                link.shortenURL=shortenURL
+                link.save()
+                print('linkcount',linkid)
+            print('targetURL,shortenURL',targetURL,shortenURL)
+
     return render(request,'index.html',{'form':form,'shorturl':shortenURL})
 
 def target(request,URLid):
-    # target = models.Link.objects.filter(shortenURL=URLid)
-    # print(target)
-    target=get_object_or_404(models.Link,shortenURL=URLid)
-    print(target)
+    al=algo()
+    linkid=al.decode(URLid)+1
+    target = get_object_or_404(models.Link,pk=linkid)
     targetURL=target.targetURL
-    print(targetURL)
-    if(targetURL[:4]!='http'):
-        targetURL='http://'+targetURL
+    print('targetURL:',targetURL)
     return HttpResponseRedirect(targetURL)
