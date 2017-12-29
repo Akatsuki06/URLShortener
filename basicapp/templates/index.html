@@ -2,10 +2,14 @@
 
 {% block bodyblock %}
 
-<p class="text-center">Enter any long URL Lets shorten it!</p>
+<p class="text-center">
+<br><span class="glyphicon glyphicon-link large"></span><br>  
+Enter a url to shorten it!
+<br>
+</p>
     <form class="form-group" method="post">
       {%csrf_token%}
-      <div class="form-group">
+      <div class="form-group ">
           {{form}}
           <input class="btn btn-success"  type="submit" name="" value="Shorten!">
       </div>
@@ -13,12 +17,17 @@
   </form>
 
 <div class="input-group">
-    <input type="text" class="form-control" value="{{shortenurl}}"  id="copy-input" readonly="true">
-    <span class="input-group-btn">
-      <button class="btn btn-default" type="button"  data-placement="button"
-          title="Copy" onclick="copyText()">
-        <span class="glyphicon glyphicon-link"></span>
-      </button>
-    </span>
-  </div>
+  {% if shortenurl|length > 0 %}
+<a href="{{shortenurl}}" target='_blank'>
+  <input type="url" class="form-control" id="copy-input" value='{{shortenurl}}' readonly="true" ></a>
+  {% else %}
+  <input type="text" class="form-control" id="copy-input" readonly="true">
+  {% endif %}
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button"  data-placement="button"
+            title="Copy" onclick="copyText()">
+          <span class="glyphicon glyphicon-copy"></span>
+        </button>
+      </span>
+
 {% endblock bodyblock %}

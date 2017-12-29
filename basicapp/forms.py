@@ -12,7 +12,7 @@ class LinkForm(forms.ModelForm):
         'targetURL':forms.TextInput(attrs={'class':'form-control','id':'shortenURL','placeholder':'paste your url here'})
         }
         labels={
-        'targetURL':'URL'
+        'targetURL':''
         }
 #url cleaning
     def clean_targetURL(self):

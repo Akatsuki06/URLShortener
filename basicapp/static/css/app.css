@@ -6,3 +6,6 @@ body {
 * {
   font-family: Raleway;
 }
+.large {
+    font-size: 5.2em;
+}
