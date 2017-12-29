@@ -1,0 +1,53 @@
+@import 'https://fonts.googleapis.com/css?family=Montserrat%3A400%2C700&ver=4.4.1';
+
+$main-color: #0a2333;
+$secondary-color: #66b34e;
+
+body {
+	font-family: Montserrat;
+}
+
+.jumbotron {
+	background-color: #fff;
+	border: 1px solid $main-color;
+	border-radius: 0 !important;
+	height: auto !important;
+	min-height: 200px;
+	p {
+		text-align: center;
+		padding: 20px 0;
+	}
+}
+
+.navbar-shortner {
+	background-color: $main-color;
+	border-radius: 0;
+	a {
+		color: $secondary-color;
+	}
+}
+
+.btn-shortner {
+	background-color: $secondary-color;
+	color : #fff;
+	border: 1px solid $secondary-color;
+	border-radius: 0;
+}
+
+.form-control {
+	border-radius: 0;
+	border: 1px solid $secondary-color;
+	color: $secondary-color;
+}
+
+.form-control:focus {
+	border-color: #65b34e;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(101,179,77,0.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(101,178,78,0.6);
+}
+
+.btn:focus, .btn:active, .btn:hover {
+	color: #fff !important;
+	background-color: rgba(101,178,78,0.6);
+}

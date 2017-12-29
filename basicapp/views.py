@@ -1,14 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView, CreateView
 # Create your views here.
-import hashlib
-import urllib
 from basicapp import models,forms
-
 from basicapp.shortener_algo import algo
 from django.http import HttpResponseRedirect
-# from django.contrib.auth.hashers import make_password
+from django.utils import timezone
+
 def shorten(request):
+    BASE_URL='http://localhost:8000/'
     form=forms.LinkForm()
     al=algo()
     shortenURL=''
@@ -17,7 +16,7 @@ def shorten(request):
         if form.is_valid():
             link=form.save(commit=False)
             targetURL=form.cleaned_data['targetURL']
-            #check if this url is already exists
+            #check if this url already exists
             try:
                 check=models.Link.objects.get(targetURL=targetURL)# retrieve the object
             except:
@@ -29,14 +28,15 @@ def shorten(request):
                 print('check not none shortenURL',shortenURL)
             else:
                 linkid=models.Link.objects.count()
-                shortenURL=al.encode(linkid)
+                shortenURL=BASE_URL+al.encode(linkid)
                 link.targetURL=targetURL
                 link.shortenURL=shortenURL
+                link.created_date= timezone.now()
                 link.save()
                 print('linkcount',linkid)
             print('targetURL,shortenURL',targetURL,shortenURL)
 
-    return render(request,'index.html',{'form':form,'shorturl':shortenURL})
+    return render(request,'index.html',{'form':form,'shortenurl':shortenURL})
 
 def target(request,URLid):
     al=algo()

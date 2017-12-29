@@ -1,14 +1,24 @@
 {% extends "base.html" %}
-{% block body %}
 
-<form  method="post">
+{% block bodyblock %}
 
-{%csrf_token%}
-{{form.as_p}}
-<input type="submit" name="" value="Shorten It!">
+<p class="text-center">Enter any long URL Lets shorten it!</p>
+    <form class="form-group" method="post">
+      {%csrf_token%}
+      <div class="form-group">
+          {{form}}
+          <input class="btn btn-success"  type="submit" name="" value="Shorten!">
+      </div>
 
-</form>
-<br>
-{{shorturl}}
+  </form>
 
-{% endblock body %}
+<div class="input-group">
+    <input type="text" class="form-control" value="{{shortenurl}}"  id="copy-input" readonly="true">
+    <span class="input-group-btn">
+      <button class="btn btn-default" type="button"  data-placement="button"
+          title="Copy" onclick="copyText()">
+        <span class="glyphicon glyphicon-link"></span>
+      </button>
+    </span>
+  </div>
+{% endblock bodyblock %}
