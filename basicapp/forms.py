@@ -9,7 +9,7 @@ class LinkForm(forms.ModelForm):
         model=models.Link
         fields=('targetURL',)
         widgets={
-        'targetURL':forms.TextInput(attrs={'class':'form-control','id':'shortenURL','placeholder':'paste your url here'})
+        'targetURL':forms.TextInput(attrs={'class':'form-control  input-lg','id':'shortenURL','placeholder':'paste your url here'})
         }
         labels={
         'targetURL':''
