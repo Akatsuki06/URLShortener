@@ -21,11 +21,11 @@ footer{
   background-color: black;
 }
 @media screen
-  and (min-device-width: 1200px)
+  and (min-device-height:516px)
+  and (min-device-width: 700px)
   and (max-device-width: 1600px) {
     footer{
       background-color: black;
-      position:absolute;
        bottom:0;
        width:100%;
        height:60px;
