@@ -27,21 +27,21 @@ def shorten(request):
                 shortenURL=check.shortenURL
                 print('check not none shortenURL',shortenURL)
             else:
-                linkid=models.Link.objects.count()
-                shortenURL=BASE_URL+al.encode(linkid)
+                urlid=models.Link.objects.count()
+                shortenURL=BASE_URL+al.encode(urlid)
                 link.targetURL=targetURL
                 link.shortenURL=shortenURL
                 link.created_date= timezone.now()
                 link.save()
-                print('linkcount',linkid)
+                print('linkcount',urlid)
             print('targetURL,shortenURL',targetURL,shortenURL)
 
     return render(request,'index.html',{'form':form,'shortenurl':shortenURL})
 
 def target(request,URLid):
     al=algo()
-    linkid=al.decode(URLid)+1
-    target = get_object_or_404(models.Link,pk=linkid)
+    urlid=al.decode(URLid)+1
+    target = get_object_or_404(models.Link,pk=urlid)
     targetURL=target.targetURL
     print('targetURL:',targetURL)
     return HttpResponseRedirect(targetURL)
