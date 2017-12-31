@@ -8,9 +8,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <link rel="stylesheet" href="{% static 'css/app.css' %}">
   <script type="text/javascript" src ="{% static 'js/app.js'%}">
-
   </script>
-
   </head>
 
   <body>
@@ -18,27 +16,23 @@
     <nav class="navbar navbar-default custom-navbar navbar-fixed-top navbar-inverse">
       <div class="container">
           <ul class="nav navbar-nav ">
-          <li>  <a class="navbar-brand" href=""><b>URL Shortener</b></a></li>
+          <li>  <a class="navbar-brand " href=""><b>URL Shortener</b></a></li>
           </ul>
         </div>
       </div>
     </nav>
 
-    <div class="container">
+    <div class="container else">
       		<div class="jumbotron">
               {% block bodyblock %}
               {% endblock bodyblock %}
           </div>
     </div>
 
-<footer>
-  <div class="container">
-    <h4>
-         <p class="text-center">
-        Developed by <a href="https://github.com/Akatsuki06" target="_blank">Akatuski</a>
-      </p>
-    </h4>
-  </div>
-</footer>
+    <footer>
+          <h4>Developed by <a href="https://github.com/Akatsuki06" target="_blank">Akatuski</a></h4>
+    </footer>
   </body>
+
+
 </html>
