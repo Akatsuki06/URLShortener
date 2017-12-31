@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect
 from django.utils import timezone
 
 def shorten(request):
-    BASE_URL='http://localhost:8000/'
+    BASE_URL='http://su06.herokuapp.com/'
     form=forms.LinkForm()
     al=algo()
     shortenURL=''
