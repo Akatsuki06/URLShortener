@@ -5,5 +5,5 @@ from django.utils import timezone
 class Link(models.Model):
     linkid = models.AutoField(primary_key = True)
     created_date=models.DateTimeField(blank=True, default=timezone.now)
-    shortenURL=models.CharField(max_length=10,unique=True)
+    shortenURL=models.CharField(max_length=500,unique=True)
     targetURL=models.CharField(max_length=500)
