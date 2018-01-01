@@ -3,7 +3,7 @@ from django.views.generic import TemplateView, CreateView
 # Create your views here.
 from basicapp import models,forms
 from basicapp.shortener_algo import algo
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,HttpResponse
 from django.utils import timezone
 
 def shorten(request):
@@ -45,3 +45,22 @@ def target(request,URLid):
     targetURL=target.targetURL
     print('targetURL:',targetURL)
     return HttpResponseRedirect(targetURL)
+
+
+from basicapp import serializers
+from rest_framework import viewsets
+
+
+# class  api(viewsets.ModelViewSet):
+#     queryset= models.Link.objects.all()
+#     serializer_class=serializers.LinkSerializer
+
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+class CreateShortURL(APIView):
+    def post(self,request,format=None):
+        # serializer=CreateLinkSerializer(data=request.data)
+        print(request.data.get('targetURL'))
+        #yet to be created
+        return HttpResponse('OK-->')
