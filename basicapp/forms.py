@@ -15,8 +15,8 @@ class LinkForm(forms.ModelForm):
         'targetURL':''
         }
 #url cleaning
-    def clean_targetURL(self):
-        targetURL=self.cleaned_data['targetURL'].lower()
-        if urlparse(targetURL).scheme=='':
-            targetURL='http://'+targetURL
-        return targetURL
+    # def clean_targetURL(self):
+    #     targetURL=self.cleaned_data['targetURL'].lower()
+    #     if urlparse(targetURL).scheme=='':
+    #         targetURL='http://'+targetURL
+    #     return targetURL

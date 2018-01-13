@@ -6,37 +6,44 @@ from basicapp.shortener_algo import algo
 from django.http import HttpResponseRedirect,HttpResponse
 from django.utils import timezone
 
+from urllib.parse import urlparse
+BASE_URL='http://su06.herokuapp.com/'
+
+def check_and_create(targetURL):
+    al=algo()
+    shortenURL,created_date='',''
+    targetURL=targetURL.lower()
+    if urlparse(targetURL).scheme=='':
+        targetURL='http://'+targetURL
+    link = models.Link.objects.filter(targetURL = targetURL)
+
+    if link.count() == 0:
+        link = models.Link()
+        urlid = models.Link.objects.count()
+        shortenURL = BASE_URL+al.encode(urlid)
+        created_date = timezone.now()
+        link.targetURL = targetURL
+        link.shortenURL = shortenURL
+        link.created_date = created_date
+        link.save()
+    else:
+         link=link[0]
+    return link
+
+
 def shorten(request):
-    BASE_URL='http://su06.herokuapp.com/'
     form=forms.LinkForm()
     al=algo()
     shortenURL=''
     if request.method=='POST':
         form=forms.LinkForm(request.POST)
         if form.is_valid():
-            link=form.save(commit=False)
             targetURL=form.cleaned_data['targetURL']
-            #check if this url already exists
-            try:
-                check=models.Link.objects.get(targetURL=targetURL)# retrieve the object
-            except:
-                check = None
-            # check=get_object_or_404(models.Link,targetURL=targetURL)
-            print('check',check)
-            if check is not None:
-                shortenURL=check.shortenURL
-                print('check not none shortenURL',shortenURL)
-            else:
-                urlid=models.Link.objects.count()
-                shortenURL=BASE_URL+al.encode(urlid)
-                link.targetURL=targetURL
-                link.shortenURL=shortenURL
-                link.created_date= timezone.now()
-                link.save()
-                print('linkcount',urlid)
-            print('targetURL,shortenURL',targetURL,shortenURL)
+            link = check_and_create(targetURL)
+            shortenURL=link.shortenURL
 
     return render(request,'index.html',{'form':form,'shortenurl':shortenURL})
+
 
 def target(request,URLid):
     al=algo()
@@ -49,18 +56,18 @@ def target(request,URLid):
 
 from basicapp import serializers
 from rest_framework import viewsets
-
-
-# class  api(viewsets.ModelViewSet):
-#     queryset= models.Link.objects.all()
-#     serializer_class=serializers.LinkSerializer
-
-
-from rest_framework.views import APIView
 from rest_framework.response import Response
-class CreateShortURL(APIView):
-    def post(self,request,format=None):
-        # serializer=CreateLinkSerializer(data=request.data)
-        print(request.data.get('targetURL'))
-        #yet to be created
-        return HttpResponse('OK-->')
+from rest_framework.views import APIView
+from rest_framework.authentication import BasicAuthentication
+
+class CreateAPI(APIView):
+    serializer_class = serializers.LinkSerializer
+
+    def post(self,request):
+        serializer = serializers.LinkSerializer(data=request.data)
+        if serializer.is_valid():
+            targetURL = serializer.data.get('targetURL')
+            link = check_and_create(targetURL)
+            return Response({'created_date':link.created_date,'targetURL':link.targetURL,'shortenURL':link.shortenURL})
+        else:
+            return Response({'error':'error occured while making request'})
